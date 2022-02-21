@@ -10,6 +10,7 @@ class Config(BaseSettings):
     DEBUG: bool = False
     APP_HOST: str = "0.0.0.0"
     APP_PORT: int = 8000
+    DB_URL: str = "sqlite:///./favorite_products.db"
 
 
 class DevelopmentConfig(Config):
