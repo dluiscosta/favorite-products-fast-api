@@ -15,7 +15,7 @@ class CustomerService(BaseService):
         if db_customer is not None:
             return schemas.CustomerSchema.from_orm(db_customer)
 
-    def get_by_id(self, id: int) -> schemas.CustomerSchema:
+    def get_by_id(self, id: str) -> schemas.CustomerSchema:
         db_customer = self.db_session.query(models.Customer) \
                 .filter(models.Customer.id == id).first()
         if db_customer is not None:
@@ -36,4 +36,3 @@ class CustomerService(BaseService):
         self.db_session.flush()
         self.db_session.refresh(db_customer)
         return schemas.CustomerSchema.from_orm(db_customer)
-
