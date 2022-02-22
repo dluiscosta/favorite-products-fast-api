@@ -1,8 +1,9 @@
+from typing import List
+
 import app.schemas as schemas
 import app.models as models
 
 from app.services import BaseService
-from app.services.customer import CustomerService
 
 from luiza_labs.product_fetcher import ProductFetcher
 from luiza_labs.schemas import ProductSchema
@@ -35,7 +36,7 @@ class FavoriteProductService(BaseService):
         else:
             raise FavoriteProductNotFound()
 
-    def get_list_by_customer(self, customer_id: str) -> schemas.FavoriteProductSchema:
+    def get_list_by_customer(self, customer_id: str) -> List[schemas.FavoriteProductSchema]:
         db_favorite_products = self.db_session.query(models.FavoriteProduct) \
                 .filter(models.FavoriteProduct.customer_id == customer_id)
 
@@ -62,9 +63,9 @@ class FavoriteProductService(BaseService):
         if db_favorite_product:
             raise ProductAlreadyFavorite()
 
-        customer_service = CustomerService(db_session=self.db_session)
-        customer = customer_service.get_by_id(favorite_product.customer_id)
-        if customer is None:
+        db_customer = self.db_session.query(models.Customer) \
+            .filter(models.Customer.id == favorite_product.customer_id).first()
+        if db_customer is None:
             raise UnexistingCustomer()
 
         product_fetcher = ProductFetcher()

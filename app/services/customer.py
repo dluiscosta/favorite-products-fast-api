@@ -4,6 +4,8 @@ import app.schemas as schemas
 import app.models as models
 
 from app.services import BaseService
+from app.services.favorite_product import FavoriteProductService
+
 from core.exceptions.customer import DuplicateEmailError, CustomerNotFound
 
 
@@ -13,7 +15,12 @@ class CustomerService(BaseService):
         db_customer = self.db_session.query(models.Customer) \
                 .filter(models.Customer.id == id).first()
         if db_customer is not None:
-            return schemas.CustomerSchema.from_orm(db_customer)
+            customer = schemas.CustomerSchema(**db_customer.dict())
+            favorite_product_service = FavoriteProductService(self.db_session)
+            customer.favorite_products = favorite_product_service.get_list_by_customer(
+                customer_id=customer.id
+            )
+            return customer
         else:
             raise CustomerNotFound()
 
