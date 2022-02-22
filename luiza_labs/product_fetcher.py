@@ -2,7 +2,6 @@ import requests
 
 from uuid import UUID
 
-from core.exceptions.product import ProductNotFound
 from core.config import config
 from luiza_labs.schemas import ProductSchema
 
