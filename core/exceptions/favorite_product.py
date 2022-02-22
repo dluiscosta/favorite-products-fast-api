@@ -14,3 +14,8 @@ class UnexistingCustomer(HTTPMappedException):
 class UnexistingProduct(HTTPMappedException):
     code = 400
     message = "product does not exist"
+
+
+class FavoriteProductNotFound(HTTPMappedException):
+    code = 404
+    message = "favorite product not found"

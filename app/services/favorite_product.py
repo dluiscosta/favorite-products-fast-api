@@ -11,6 +11,7 @@ from core.exceptions.favorite_product import (
     ProductAlreadyFavorite,
     UnexistingCustomer,
     UnexistingProduct,
+    FavoriteProductNotFound,
 )
 
 
@@ -31,6 +32,8 @@ class FavoriteProductService(BaseService):
                 title=product.title,
                 image=product.image,
             )
+        else:
+            raise FavoriteProductNotFound()
 
     def get_list_by_customer(self, customer_id: str) -> schemas.FavoriteProductSchema:
         db_favorite_products = self.db_session.query(models.FavoriteProduct) \

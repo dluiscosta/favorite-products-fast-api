@@ -4,20 +4,22 @@ import app.schemas as schemas
 import app.models as models
 
 from app.services import BaseService
-from core.exceptions.customer import DuplicateEmailError
+from core.exceptions.customer import DuplicateEmailError, CustomerNotFound
 
 
 class CustomerService(BaseService):
 
-    def get_by_email(self, email: str) -> schemas.CustomerSchema:
-        db_customer = self.db_session.query(models.Customer) \
-                .filter(models.Customer.email == email).first()
-        if db_customer is not None:
-            return schemas.CustomerSchema.from_orm(db_customer)
-
     def get_by_id(self, id: str) -> schemas.CustomerSchema:
         db_customer = self.db_session.query(models.Customer) \
                 .filter(models.Customer.id == id).first()
+        if db_customer is not None:
+            return schemas.CustomerSchema.from_orm(db_customer)
+        else:
+            raise CustomerNotFound()
+
+    def get_by_email(self, email: str) -> schemas.CustomerSchema:
+        db_customer = self.db_session.query(models.Customer) \
+                .filter(models.Customer.email == email).first()
         if db_customer is not None:
             return schemas.CustomerSchema.from_orm(db_customer)
 

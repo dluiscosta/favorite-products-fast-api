@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.schema import UniqueConstraint
 from sqlalchemy_utils import UUIDType
 
-from core.db import Base
+from core.db import Base, engine
 
 
 class Customer(Base):
@@ -27,3 +27,6 @@ class FavoriteProduct(Base):
     __table_args__ = (
         UniqueConstraint('product_id', 'customer_id', name='_product_customer_uc'),
     )
+
+
+Base.metadata.create_all(bind=engine)
