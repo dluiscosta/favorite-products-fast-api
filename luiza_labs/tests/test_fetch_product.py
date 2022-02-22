@@ -1,11 +1,9 @@
 import requests_mock
 import uuid
-import pytest
 
 from luiza_labs.product_fetcher import ProductFetcher
 from luiza_labs.sample import read_sample_json
 from luiza_labs.schemas import ProductSchema
-from core.exceptions.product import ProductNotFound
 
 
 class TestFetchProductById():
@@ -28,5 +26,4 @@ class TestFetchProductById():
             json=read_sample_json("not_found.json"),
             status_code=404,
         )
-        with pytest.raises(ProductNotFound):
-            ProductFetcher.fetch_product_by_id(PRODUCT_ID)
+        assert ProductFetcher.fetch_product_by_id(PRODUCT_ID) is None

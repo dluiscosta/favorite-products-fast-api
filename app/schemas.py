@@ -15,10 +15,9 @@ class FavoriteProductCreateSchema(FavoriteProductBaseSchema):
 
 class FavoriteProductSchema(FavoriteProductBaseSchema):
     id: UUID
-    # price: float
-    # title: str
-    # image: str
-    # TODO: add back and collect from external api
+    price: float
+    title: str
+    image: str
 
     class Config:
         orm_mode = True

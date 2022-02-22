@@ -21,7 +21,7 @@ class ProductFetcher():
             response.raise_for_status()
         except requests.HTTPError as err:
             if err.response.status_code == 404:
-                raise ProductNotFound()
+                return None
             else:
                 raise err
 

@@ -9,3 +9,8 @@ class ProductAlreadyFavorite(HTTPMappedException):
 class UnexistingCustomer(HTTPMappedException):
     code = 400
     message = "customer does not exist"
+
+
+class UnexistingProduct(HTTPMappedException):
+    code = 400
+    message = "product does not exist"
